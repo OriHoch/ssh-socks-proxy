@@ -12,7 +12,7 @@ authorize_ssh_key_to_docker_ssh_server() {
 upv_submodule_provision() {
     local SUBMODULE_PATH="${1}"
     pushd "${SUBMODULE_PATH}" > /dev/null
-        ./provision.sh
+        provision.sh
     popd > /dev/null
 }
 
@@ -33,7 +33,7 @@ provision_test_environment() {
     docker_build_run "http-echo" "./docker/http-echo" "-d --network host" &&\
     generate_ssh_key "${KEY_COMMENT}" "${SSH_IDENTITY_FILE}" &&\
     authorize_ssh_key_to_docker_ssh_server "${SSH_IDENTITY_FILE}" "ssh-server" &&\
-    ./provision.sh &&\
+    provision.sh &&\
     docker_build_run "ssh-socks-proxy" "./" "-d --network host --env-file .env"
 }
 

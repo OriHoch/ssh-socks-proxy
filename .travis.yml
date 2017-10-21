@@ -5,4 +5,5 @@ cache:
 sudo: required
 script:
 - ./install_docker.sh
+- ./upv.sh pull
 - ./upv.sh test

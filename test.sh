@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-source ./test_functions.sh
+source test_functions.sh
 
 info "Running ssh-socks-proxy tests"
 

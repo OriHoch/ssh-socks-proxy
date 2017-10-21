@@ -1,0 +1,5 @@
+push_tag: orihoch/ssh-socks-proxy
+submodules:
+- path: docker/http-echo
+- path: docker/ssh-server
+- path: docker/upv

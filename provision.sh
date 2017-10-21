@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-source ./functions.sh
+source functions.sh
 source_dotenv
 read_params SSH_HOST KEY_COMMENT
 

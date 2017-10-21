@@ -7,4 +7,5 @@ docker build -qt upv docker/upv
 docker run -it --network host \
            -v `pwd`:/upv/workspace \
            -v /var/run/docker.sock:/var/run/docker.sock \
+           -v "${HOME}/.docker:/root/.docker" \
            upv "$@"

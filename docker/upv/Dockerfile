@@ -7,8 +7,10 @@ RUN curl -fsSL https://download.docker.com/linux/$(. /etc/os-release; echo "$ID"
     add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/$(. /etc/os-release; echo "$ID") $(lsb_release -cs) stable" &&\
     apt-get update &&\
     apt-get install -y docker-ce
-RUN pip install python-dotenv
+RUN pip install python-dotenv pyyaml
 RUN mkdir -p /upv/workspace
 COPY entrypoint.sh /upv/entrypoint.sh
+COPY push.py /upv/push.py
+COPY pull.py /upv/pull.py
 WORKDIR /upv/workspace
 ENTRYPOINT ["/upv/entrypoint.sh"]
