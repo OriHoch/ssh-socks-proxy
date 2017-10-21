@@ -1,0 +1,8 @@
+language: bash
+cache:
+  directories:
+  - "$HOME/.cache"
+sudo: required
+script:
+- ./install_docker.sh
+- ./upv.sh test
