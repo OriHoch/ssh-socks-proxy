@@ -1,9 +1,7 @@
 language: bash
-cache:
-  directories:
-  - "$HOME/.cache"
 sudo: required
 script:
 - ./install_docker.sh
+- docker pull orihoch/upv
 - ./upv.sh pull
 - ./upv.sh test
