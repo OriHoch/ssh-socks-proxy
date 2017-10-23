@@ -106,3 +106,5 @@ ENV/
 *.key
 *.key.pub
 *.override.yaml
+*.pem
+ssh-socks-proxy-master

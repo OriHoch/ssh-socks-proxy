@@ -2,3 +2,5 @@
 *.key.pub
 tests/*.key
 tests/*.key.pub
+*.pem
+ssh-socks-proxy-master
