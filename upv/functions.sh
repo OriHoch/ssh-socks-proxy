@@ -59,10 +59,12 @@ bash_on_error() {
 }
 
 source_dotenv() {
-    [ ! -f .env ] || eval `dotenv list`
+    [ -f .env ] || touch .env
+    eval `dotenv list`
 }
 
 dotenv_set() {
+    [ -f .env ] || touch .env
     debug `dotenv -qnever set -- "${1}" "${2}"`
 }
 
@@ -80,6 +82,7 @@ upv_dotenv_get() {
     local UPV_MODULE_PATH="${1}"
     local KEY="${2}"
     pushd "${UPV_WORKSPACE}/${UPV_MODULE_PATH}" >/dev/null
+        [ -f .env ] || touch .env
         eval `dotenv get "${KEY}"`
     popd >/dev/null
 }
@@ -112,7 +115,14 @@ read_params() {
     for PARAM in $*; do
         local VALUE=`eval 'echo $'${PARAM}`
         if [ "${VALUE}" == "" ]; then
-            read -p "${PARAM}=" $PARAM
+            if [ "${UPV_INTERACTIVE}" == "0" ]; then
+                error "Missing required param ${PARAM}"
+                info "Run ./upv.sh --interactive to interactively input the values"
+                bash_on_error
+                return 1
+            else
+                read -p "${PARAM}=" $PARAM
+            fi
         else
             echo "${PARAM}=\"${VALUE}\""
         fi
