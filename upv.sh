@@ -4,6 +4,38 @@ help() {
     echo "Usage: ${0} [--debug] [--interactive] <UPV_MODULE_PATH> [CMD] [PARAMS]"
 }
 
+preflight_check() {
+    local CHECK="${1}"
+    local ERROR="${2}"
+    local INSTALL="${3}"
+    if ! eval "${CHECK}" >/dev/null 2>&1; then
+        echo "ERROR: ${ERROR}"
+        if [ "${UPV_INTERACTIVE}" == "1" ]; then
+            read -p "Try to install? [Y/n] "
+            if [ "${REPLY}" == "n" ]; then
+                return 1
+            else
+                eval "${INSTALL}"
+            fi
+        else
+            echo "Run ./upv.sh --interactive to let the script try installing dependencies for you"
+            return 1
+        fi
+    else
+        return 0
+    fi
+}
+
+preflight() {
+    preflight_check "which python2.7" "Python 2.7 is required" "sudo apt-get install python2.7" &&\
+    preflight_check "which docker" "Docker is required" "
+        curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -;
+        sudo add-apt-repository \"deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable\";
+        sudo apt-get update;
+        sudo apt-get -y install docker-ce;
+    "
+}
+
 debug() {
     [ "${UPV_DEBUG}" == "0" ] || echo "$@"
 }
@@ -48,6 +80,11 @@ read_params() {
 }
 
 read_params "$@"
+
+if ! preflight; then
+    echo "ERROR: Failed preflight checks"
+    exit 1
+fi
 
 if [ "${UPV_MODULE_PATH}" == "" ]; then
     help
@@ -98,7 +135,7 @@ else
         RES=$?
         debug "Upv exited with return code ${RES}"
         debug "Removing image"
-        docker rmi --no-prune "${DOCKER_IMAGE}"
+        docker rmi --no-prune "${DOCKER_IMAGE}" >/dev/null 2>&1
         exit $RES
     fi
 fi

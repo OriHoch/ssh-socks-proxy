@@ -1,6 +1,6 @@
-FROM python:3.6-alpine
+FROM python:2.7-alpine
 
-RUN apk add --update openssh curl bash
+RUN apk add --update openssh curl bash && pip install python-dotenv
 
 COPY upv/functions.sh /upv/functions.sh
 ENV UPV_ROOT "/upv"

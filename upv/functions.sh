@@ -14,6 +14,12 @@ debug() {
     [ "${UPV_DEBUG}" == "0" ] || echo "DEBUG: ${*}"
 }
 
+success() {
+    echo "Great Success"
+    echo
+    echo_trim "${1}"
+}
+
 upv() {
     local SUBMODULE_PATH="${1}"
     local CMD="${2}"

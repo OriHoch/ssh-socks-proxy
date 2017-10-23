@@ -24,4 +24,14 @@ dotenv_set SSH_B64_KEY `cat ${KEY_FILE} | base64 -w0`
 dotenv_set SSH_B64_PUBKEY `cat ${KEY_FILE}.pub | base64 -w0`
 dotenv_set SOCKS_PORT "${SOCKS_PORT}"
 dotenv_set KEY_COMMENT "${KEY_COMMENT}"
-dotenv_set SSH_OPTS "${SSH_OPTS}"
+
+success "
+    Provisioned ssh-socks-proxy
+    You can now build / run the docker image:
+    -- docker build -t ssh-socks-proxy .
+    -- docker rm --force ssh-socks-proxy
+    -- docker run -d --rm --name ssh-socks-proxy -p "${SOCKS_PORT}:${SOCKS_PORT}" --env-file .env ssh-socks-proxy
+    Test it:
+    -- curl http://httpbin.org/ip
+    -- curl --socks5-hostname localhost:${SOCKS_PORT} http://httpbin.org/ip
+"

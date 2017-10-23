@@ -14,7 +14,7 @@ KEYFILE="${TEMPDIR}/key"
 echo "${SSH_B64_KEY}" | base64 -d > "${KEYFILE}"
 echo "${SSH_B64_PUBKEY}" | base64 -d > "${KEYFILE}.pub"
 chmod 400 "${KEYFILE}"
-ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -p "${SSH_PORT}" -D "${SOCKS_PORT}" -C -N -i "${KEYFILE}" "${SSH_HOST}" &
+ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -p "${SSH_PORT}" -D "0.0.0.0:${SOCKS_PORT}" -C -N -i "${KEYFILE}" "${SSH_HOST}" &
 PIDS="${!}"
 sleep 2
 
