@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-source ./functions.sh
+source functions.sh
 source_dotenv
 require_params SSH_HOST SSH_B64_KEY SSH_B64_PUBKEY SOCKS_PORT SSH_PORT
 

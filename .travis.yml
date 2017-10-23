@@ -1,7 +1,12 @@
 language: bash
 sudo: required
 script:
-- ./install_docker.sh
+#.upv--label=install_docker
+- curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
+- sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
+- sudo apt-get update
+- sudo apt-get -y install docker-ce
+#--.upv
 - docker pull orihoch/upv
-- ./upv.sh pull
-- ./upv.sh test
+- ./upv.sh . pull
+- ./upv.sh tests test
